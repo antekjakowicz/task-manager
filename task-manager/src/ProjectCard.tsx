@@ -46,16 +46,16 @@ function ProjectCard({project, onDelete, onStatusChange}: ProjectCardInterface) 
                     style={{
                         backgroundColor: getStatusColor(),
                         color: '#fff',
-                        padding: '0.3rem 0.6rem',
-                        borderRadius: '4px',
+                        padding: '6px',
+                        borderRadius: '15px',
                         border: 'none',
                         fontWeight: 'bold',
                         cursor: 'pointer',
                     }}
                 >
-                    <option>Do zrobienia</option>
-                    <option>W trakcie</option>
-                    <option>Zakończone</option>
+                    <option style={{backgroundColor: '#ff4d4f'}}>Do zrobienia</option>
+                    <option style={{backgroundColor: '#1890ff'}}>W trakcie</option>
+                    <option style={{backgroundColor: '#52c41a'}}>Zakończone</option>
                 </select>
             </div>
 
