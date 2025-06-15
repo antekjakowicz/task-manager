@@ -94,3 +94,9 @@ button:focus-visible {
 .input-error::placeholder {
   color: red;
 }
+
+.ProjectCard ul {
+  list-style: none;
+  padding-left: 0;
+  margin: 10px;
+}

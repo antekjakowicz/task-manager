@@ -4,11 +4,20 @@ import {useState} from "react";
 
 function App() {
 
-    const [projects, setProjects] = useState<{ id: number; name: string; status: string; priority: 'low' | 'med' | 'high' }[]>([]);
+    const [projects, setProjects] = useState<
+        {
+            id: number;
+            name: string;
+            status: string;
+            priority: 'low' | 'med' | 'high';
+            group: string[]
+        }[]
+    >([]);
     const [status, setStatus] = useState('Do zrobienia');
     const [priority, setPriority] = useState<'low' | 'med' | 'high'>('low');
     const [name, setName] = useState('');
     const [hasError, setHasError] = useState(false);
+    const [groupText, setGroupText] = useState('');
 
 
     const handleAdd = () => {
@@ -23,14 +32,22 @@ function App() {
             name: name.trim(),
             status,
             priority,
+            group: groupText.split(',').map((n) => n.trim()).filter(Boolean),
         },]);
         setName('');
         setStatus('Do zrobienia');
         setPriority('low');
+        setGroupText('');
     };
 
     const handleDelete = (id: number) => {
         setProjects(projects.filter((p) => p.id !== id));
+    };
+
+    const handleStatusChange = (id: number, newStatus: string) => {
+        setProjects(projects.map((p) =>
+            p.id === id ? { ...p, status: newStatus } : p
+        ));
     };
 
 
@@ -61,13 +78,19 @@ function App() {
                     <option value="high">Wysoki</option>
                 </select>
 
+                <input
+                    type="text"
+                    placeholder="Uczestnicy (np. Antek, Lukasz)"
+                    value={groupText}
+                    onChange={(e) => setGroupText(e.target.value)}
+                />
                 <button id={"addProjectButton"} onClick={handleAdd}>Dodaj</button>
             </div>
             <div className="List">
                 <h2>Lista Projektów</h2>
                 <ol>
                     {projects.map((project) => (
-                        <ProjectCard key={project.id} project={project} onDelete={handleDelete}/>
+                        <ProjectCard key={project.id} project={project} onDelete={handleDelete} onStatusChange={handleStatusChange} />
                     ))}
                 </ol>
             </div>
