@@ -25,6 +25,11 @@ function App() {
             setHasError(true);
             return;
         }
+
+        if (!groupText.trim()) {
+            setHasError(true);
+            return;
+        }
         setHasError(false);
 
         setProjects([...projects, {
@@ -58,10 +63,10 @@ function App() {
       </div>
         <div className="App">
             <div className="Form">
-                <h2>Utwórz projekt</h2>
+                <h2>Utwórz Zadanie</h2>
                 <input className={hasError ? 'input-error' : ''}
                     type="text"
-                    placeholder="Nazwa projektu"
+                    placeholder="Nazwa zadania"
                     value={name}
                     onChange={(e) => {setName(e.target.value)}}
                     />
@@ -78,16 +83,17 @@ function App() {
                     <option value="high">Wysoki</option>
                 </select>
 
-                <input
+                <input className={hasError ? 'input-error' : ''}
                     type="text"
                     placeholder="Uczestnicy (np. Antek, Lukasz)"
                     value={groupText}
                     onChange={(e) => setGroupText(e.target.value)}
                 />
+                <br></br>
                 <button id={"addProjectButton"} onClick={handleAdd}>Dodaj</button>
             </div>
             <div className="List">
-                <h2>Lista Projektów</h2>
+                <h2>Lista Zadań</h2>
                 <ol>
                     {projects
                         .sort((a, b) => {

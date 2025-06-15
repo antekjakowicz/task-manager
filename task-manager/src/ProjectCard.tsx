@@ -37,7 +37,7 @@ function ProjectCard({project, onDelete, onStatusChange}: ProjectCardInterface) 
 
     return (
         <div className="ProjectCard" style={{ borderLeft: `6px solid ${getPriorityColor()}` }}>
-            <p><strong>{project.name}</strong></p>
+            <p id={"name"}><strong>{project.name}</strong></p>
 
             <div className="statusDiv">
                 <select
