@@ -89,9 +89,19 @@ function App() {
             <div className="List">
                 <h2>Lista Projektów</h2>
                 <ol>
-                    {projects.map((project) => (
-                        <ProjectCard key={project.id} project={project} onDelete={handleDelete} onStatusChange={handleStatusChange} />
-                    ))}
+                    {projects
+                        .sort((a, b) => {
+                            const priorityOrder = { high: 0, med: 1, low: 2 };
+                            return priorityOrder[a.priority] - priorityOrder[b.priority];
+                        })
+                        .map((project) => (
+                            <ProjectCard
+                                key={project.id}
+                                project={project}
+                                onDelete={handleDelete}
+                                onStatusChange={handleStatusChange}
+                            />
+                        ))}
                 </ol>
             </div>
         </div>
