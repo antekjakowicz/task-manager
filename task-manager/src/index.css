@@ -65,3 +65,32 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+.ProjectCard {
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 16px;
+
+  transition:
+          box-shadow 0.4s ease,
+          transform 0.4s ease-in-out;
+}
+
+.ProjectCard:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+#deleteButton:hover {
+  color: #d9534f;
+  border-color: #d9534f;
+}
+
+#addProjectButton:hover {
+  color: rgb(36, 182, 9);
+  border-color: rgb(36, 182, 9);
+}
+
+.input-error::placeholder {
+  color: red;
+}
