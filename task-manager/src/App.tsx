@@ -1,6 +1,7 @@
 import './App.css'
 import ProjectCard from "./ProjectCard.tsx";
 import {useState} from "react";
+import { useEffect } from "react";
 
 function App() {
 
@@ -20,25 +21,53 @@ function App() {
     const [groupText, setGroupText] = useState('');
 
 
-    const handleAdd = () => {
-        if (!name.trim()) {
+    useEffect(() => {
+        const fetchTasks = async () => {
+            try {
+                const response = await fetch("http://localhost:5000/tasks");
+                const data = await response.json();
+                setProjects(data.map((task: any) => ({ ...task, id: Date.now() + Math.random() })));
+            } catch (err) {
+                console.error("Błąd pobierania zadań:", err);
+            }
+        };
+
+        fetchTasks();
+    }, []);
+
+
+    const handleAdd = async () => {
+        if (!name.trim() || !groupText.trim()) {
             setHasError(true);
             return;
         }
 
-        if (!groupText.trim()) {
-            setHasError(true);
-            return;
-        }
-        setHasError(false);
-
-        setProjects([...projects, {
-            id: Date.now(),
+        const newTask = {
             name: name.trim(),
             status,
             priority,
             group: groupText.split(',').map((n) => n.trim()).filter(Boolean),
-        },]);
+        };
+
+        try {
+            const response = await fetch("http://localhost:5000/tasks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newTask),
+            });
+
+            if (response.ok) {
+                const savedTask = await response.json();
+                setProjects([...projects, { ...savedTask, id: Date.now() }]);
+            } else {
+                console.error("Błąd podczas zapisu do bazy");
+            }
+        } catch (err) {
+            console.error("Błąd sieci:", err);
+        }
+
         setName('');
         setStatus('Do zrobienia');
         setPriority('low');
